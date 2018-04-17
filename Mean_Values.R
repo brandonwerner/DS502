@@ -51,7 +51,7 @@ nrow(df)
 #look at some plots of the data using a sample
 
 set.seed(9)
-smp = df[sample(nrow(df), nrow(df)*0.05),]
+smp = df[sample(nrow(df), nrow(df)*0.2),]
 dim(smp)
 
 ############# plot correlation matrix ########################
@@ -60,7 +60,7 @@ dim(smp)
 library(ggplot2)
 library(reshape2)
 
-cormat <- round(cor(smp),2)
+cormat <- round(cor(smp[,5:13]),2)
 cormat
 
 #melted_cormat <- melt(cormat)
@@ -78,8 +78,10 @@ get_upper_tri <- function(cormat){
   return(cormat)
 }
 upper_tri <- get_upper_tri(cormat)
+
 # Melt the correlation matrix
 melted_cormat <- melt(upper_tri, na.rm = TRUE)
+
 # Heatmap
 ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
   geom_tile(color = "white")+
