@@ -1,7 +1,7 @@
 library(pls)
 data=read.csv("data_cleaned/training_all_counties_all_years.csv",header = TRUE)
 #data
-
+head(data)
 plot_res <-function(y, pred){
   lims=c(min(min(pred),min(y)), max(max(pred),max(y)))
   plot(y, pred, xlim=lims, ylim=lims)
@@ -104,7 +104,7 @@ plot_res(test$combined_mort_y, as.matrix(pred))
 
 
 ############### Female ###################
-fit = pcr(female_mort_y~x1_year+
+fit = pcr(female_mort_y~
             year+
             good_days_ratio+ 
             very_unhealth_ratio+ 
@@ -188,23 +188,19 @@ plot_res(test$combined_mort_y, as.matrix(pred))
 
 ########### Combined ###################
 
-fit = plsr(combined_mort_y~x1_year+
-            x2_good_days_ratio+
-            x3_mod_days_ratio+
-            x4_unhealth_sens_ratio+
-            x5_unhealth_ratio+
-            x6_very_unhealth_ratio+ 
-            x7_hazardous_ratio+
-            x8_maxAQI+
-            x9_90percentileAQUI+
-            x10_median_AQI+
-            x11_CO_ratio+
-            x12_NO2_ratio+
-            x13_ozone_ratio+
-            x14_SO2_ratio+
-            x15_PM2.5_ratio+
-            x16_PM10_ratio+
-            days_with_AQI, data=train, center=TRUE, scale=TRUE, validataion="CV")
+fit = plsr(combined_mort_y~
+             year+
+             good_days_ratio+ 
+             very_unhealth_ratio+ 
+             hazardous_ratio+
+             maxAQI+
+             CO_ratio+
+             NO2_ratio+
+             ozone_ratio+
+             SO2_ratio+
+             PM2.5_ratio+
+             PM10_ratio+
+             days_with_AQI, data=train, center=TRUE, scale=TRUE, validataion="CV")
 validationplot(fit, val.type="MSEP")
 
 ?pcr.predict

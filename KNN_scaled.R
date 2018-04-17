@@ -73,7 +73,7 @@ dim(test)
 #?knn.reg
 #don't need the algorithm arg unless running too slow
 #BE SURE train/test only include predictors, and y is set correctly
-fit = knn.reg(train = train, test = test, y = train_y, k = 10)
+fit = knn.reg(train = train, test = test, y = train_y, k = 100)
 plot_res(test_y, fit$pred)
 
 err = mean((test_y - fit$pred)^2)
