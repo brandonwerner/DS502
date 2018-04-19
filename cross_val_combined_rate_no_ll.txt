@@ -139,3 +139,198 @@ Residual standard error: 11.84 on 23247 degrees of freedom
 Multiple R-squared:  0.205,	Adjusted R-squared:  0.2045 
 F-statistic: 374.7 on 16 and 23247 DF,  p-value: < 2.2e-16
 
+ [1] "combined_mort_y"          "Year"                    
+ [3] "Days.with.AQI"            "Good.Days"               
+ [5] "Moderate.Days"            "Unhealthy.Sensitive.Days"
+ [7] "Unhealthy.Days"           "Very.Unhealthy.Days"     
+ [9] "Hazardous.Days"           "Max.AQI"                 
+[11] "Ninetieth.Percentile.AQI" "Median.AQI"              
+[13] "Days.CO"                  "Days.NO2"                
+[15] "Days.Ozone"               "Days.SO2"                
+[17] "Days.PM2.5"              
+[1] "least squares no PM10 dfc mse"
+[1] 140.4739
+
+Call:
+lm(formula = as.formula(paste(colnames(dfc_try)[1], "~", paste(colnames(dfc_try)[2:length(dfc_try)], 
+    collapse = "+"), sep = "")), data = dfc_try)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-50.957  -7.325  -0.565   7.018  84.050 
+
+Coefficients:
+                           Estimate Std. Error t value Pr(>|t|)    
+(Intercept)              -1.168e+03  1.338e+02  -8.735  < 2e-16 ***
+Year                      5.881e-01  1.124e-02  52.323  < 2e-16 ***
+Days.with.AQI            -1.238e-02  9.564e-04 -12.942  < 2e-16 ***
+Good.Days                 4.977e+01  1.312e+02   0.379    0.705    
+Moderate.Days             4.517e+01  1.312e+02   0.344    0.731    
+Unhealthy.Sensitive.Days  2.841e+01  1.312e+02   0.217    0.829    
+Unhealthy.Days            9.443e+00  1.312e+02   0.072    0.943    
+Very.Unhealthy.Days       2.798e+01  1.313e+02   0.213    0.831    
+Hazardous.Days           -5.976e+01  2.051e+02  -0.291    0.771    
+Max.AQI                  -7.266e-04  4.611e-04  -1.576    0.115    
+Ninetieth.Percentile.AQI  6.184e-02  7.647e-03   8.087 6.44e-16 ***
+Median.AQI                9.659e-02  1.441e-02   6.703 2.09e-11 ***
+Days.CO                  -5.812e+00  7.299e-01  -7.963 1.76e-15 ***
+Days.NO2                 -1.336e+01  8.060e-01 -16.577  < 2e-16 ***
+Days.Ozone               -5.824e+00  3.792e-01 -15.360  < 2e-16 ***
+Days.SO2                 -3.127e-01  4.518e-01  -0.692    0.489    
+Days.PM2.5               -3.479e+00  3.821e-01  -9.104  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 11.84 on 23247 degrees of freedom
+Multiple R-squared:  0.205,	Adjusted R-squared:  0.2045 
+F-statistic: 374.7 on 16 and 23247 DF,  p-value: < 2.2e-16
+
+null device 
+          1 
+function (which = dev.cur()) 
+{
+    if (which == 1) 
+        stop("cannot shut down device 1 (the null device)")
+    .External(C_devoff, as.integer(which))
+    dev.cur()
+}
+<bytecode: 0x5c77f60>
+<environment: namespace:grDevices>
+jpeg 
+   2 
+[1] "least squares year, pm25 mse"
+[1] 140.1852
+[1] "lambda"
+[1] 0.6022733
+[1] "ridge dfc mse"
+[1] 137.47
+18 x 1 sparse Matrix of class "dgCMatrix", with 18 entries 
+    i j             x
+1   1 1  4.354640e+01
+2   2 1  6.268384e-03
+3   3 1 -7.369602e-04
+4   4 1 -5.397892e-01
+5   5 1 -9.863462e-02
+6   6 1  2.645405e+00
+7   7 1  1.422640e+00
+8   8 1  8.061061e+00
+9   9 1 -3.120721e+02
+10 10 1  1.577169e-03
+11 11 1 -3.129423e-03
+12 12 1 -1.242193e-02
+13 13 1 -1.986607e+00
+14 14 1 -4.014412e-01
+15 15 1  2.649231e-01
+16 16 1 -9.336828e-02
+17 17 1  3.690763e-01
+18 18 1 -3.125137e-01
+          Length Class     Mode   
+a0         100   -none-    numeric
+beta      1700   dgCMatrix S4     
+df         100   -none-    numeric
+dim          2   -none-    numeric
+lambda     100   -none-    numeric
+dev.ratio  100   -none-    numeric
+nulldev      1   -none-    numeric
+npasses      1   -none-    numeric
+jerr         1   -none-    numeric
+offset       1   -none-    logical
+call         4   -none-    call   
+nobs         1   -none-    numeric
+jpeg 
+   2 
+jpeg 
+   2 
+[1] "lambda"
+[1] 0.007425107
+[1] "lasso dfc mse"
+[1] 137.3298
+18 x 1 sparse Matrix of class "dgCMatrix", with 16 entries 
+    i j             x
+1   1 1 -1.103995e+03
+2   2 1  5.780941e-01
+3   3 1 -1.340950e-02
+4   4 1  2.661104e+00
+5   6 1 -1.730142e+01
+6   7 1 -2.948521e+01
+7   8 1 -1.001196e+01
+8   9 1 -1.319576e+02
+9  10 1 -7.437829e-04
+10 11 1  4.829608e-02
+11 12 1  9.289913e-02
+12 13 1 -2.502946e+00
+13 14 1 -9.586865e+00
+14 15 1 -2.074743e+00
+15 16 1  3.308937e+00
+16 18 1  3.397867e+00
+jpeg 
+   2 
+jpeg 
+   2 
+Data: 	X dimension: 11632 17 
+	Y dimension: 11632 1
+Fit method: svdpc
+Number of components considered: 17
+TRAINING: % variance explained
+                 1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+X                 79.502   98.016   99.740    99.91   100.00   100.00   100.00
+combined_mort_y    0.347    1.491    3.017    10.77    18.48    18.88    19.16
+                 8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+X                 100.00   100.00    100.00    100.00    100.00    100.00
+combined_mort_y    19.17    19.38     19.52     19.97     20.12     20.33
+                 14 comps  15 comps  16 comps  17 comps
+X                  100.00    100.00    100.00    100.00
+combined_mort_y     20.34     20.34     20.34     20.36
+jpeg 
+   2 
+jpeg 
+   2 
+(Intercept)      1 comps      2 comps      3 comps      4 comps      5 comps  
+      180.0        179.4        177.3        174.6        160.6        146.7  
+    6 comps      7 comps      8 comps      9 comps     10 comps     11 comps  
+      146.0        145.5        145.5        145.1        144.9        144.1  
+   12 comps     13 comps     14 comps     15 comps     16 comps     17 comps  
+      143.8        143.4        143.4        143.4        143.4        143.4  
+(Intercept)      1 comps      2 comps      3 comps      4 comps      5 comps  
+    0.00000      0.00347      0.01491      0.03017      0.10767      0.18485  
+    6 comps      7 comps      8 comps      9 comps     10 comps     11 comps  
+    0.18882      0.19160      0.19168      0.19383      0.19523      0.19975  
+   12 comps     13 comps     14 comps     15 comps     16 comps     17 comps  
+    0.20122      0.20334      0.20340      0.20342      0.20343      0.20358  
+[1] "Best num comps"
+[1] 17
+[1] "pcr dfc mse"
+[1] 137.356
+Data: 	X dimension: 23264 17 
+	Y dimension: 23264 1
+Fit method: svdpc
+Number of components considered: 17
+TRAINING: % variance explained
+                 1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+X                 83.953   98.458   99.797    99.93   100.00   100.00   100.00
+combined_mort_y    0.275    1.644    2.967    11.33    18.59    19.03    19.31
+                 8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+X                 100.00   100.00    100.00    100.00    100.00    100.00
+combined_mort_y    19.33    19.58     19.76     20.13     20.32     20.49
+                 14 comps  15 comps  16 comps  17 comps
+X                   100.0     100.0     100.0     100.0
+combined_mort_y      20.5      20.5      20.5      20.5
+jpeg 
+   2 
+[1] "tree dfc mse"
+[1] 137.9013
+
+Regression tree:
+tree(formula = as.formula(paste(colnames(dfc)[1], "~", paste(colnames(dfc)[2:length(dfc)], 
+    collapse = "+"), sep = "")), data = dfc)
+Variables actually used in tree construction:
+[1] "Year"      "Days.PM10" "Days.NO2" 
+Number of terminal nodes:  5 
+Residual mean deviance:  137.9 = 3207000 / 23260 
+Distribution of residuals:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-46.3200  -7.4310  -0.6174   0.0000   6.9090  80.8300 
+jpeg 
+   2 
+jpeg 
+   2 

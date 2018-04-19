@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "running combined rate"
+echo "running combined rate no ll"
 Rscript cross_val_combined_rate_no_ll.R  >cross_val_combined_rate_no_ll.txt
 echo "running female rate no ll"
 Rscript cross_val_female_rate_no_ll.R   >cross_val_female_rate_no_ll.txt   

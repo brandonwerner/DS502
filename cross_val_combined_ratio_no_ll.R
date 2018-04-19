@@ -167,7 +167,7 @@ summary(fit_lm)
 
 #Should drop Days.PM10 ? lm shows it is linear combo of other predictor 
 #names(dfc)
-dfc_try = dfc[c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20)]
+dfc_try = dfc[c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)]
 names(dfc_try)
 
 print("least squares no PM10 dfc mse")

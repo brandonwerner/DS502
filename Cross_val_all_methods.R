@@ -7,8 +7,8 @@ source("util.R")
 
 # import csv file
 ################## RATIOS #########################
-df=read.csv("data_cleaned/training_mortality_ratios.csv", header = TRUE)
-outcome="ratio"
+df=read.csv("data_cleaned/training_mortality_subtract.csv", header = TRUE)
+outcome="sub"
 ################## RATES  #########################
 #df<-read.csv("data_cleaned/training_mortality_rates.csv", header = TRUE)
 #outcome="rate"
@@ -221,7 +221,7 @@ par(mfrow=c(1,1))
 plot_res(dfc[,1], predict(fit_lm, dfc_try))
 dev.off()
 print("least squares year, pm25 mse")
-mean((predict(fit_lm, dfc_try) - dfc_try$combined_mort_y)^2)
+mean((predict(fit_lm, dfc_try) - dfc[,1])^2)
 
 
 ################################################ Ridge ##############################################
@@ -238,7 +238,7 @@ dfc_mse = cv_ridge(dfc_eval, ridgeLambda, 10)
 print(dfc_mse)
 
 #look at model
-fit_r<-glmnet(as.matrix(dfc_tune[2:length(dfc_eval)]), as.matrix(dfc_eval[[1]]), alpha=0)
+fit_r<-glmnet(as.matrix(dfc_eval[2:length(dfc_eval)]), as.matrix(dfc_eval[[1]]), alpha=0)
 # Mean Squared Error
 pred = predict(fit_r, as.matrix(dfc_eval[2:length(dfc_eval)]), type="response", s=ridgeLambda)
 sum = predict(fit_r, as.matrix(dfc_eval[2:length(dfc_eval)]), type="coefficients", s=ridgeLambda)
@@ -274,10 +274,10 @@ dfc_mse = cv_lasso(dfc_eval, lassoLambda, 10)
 print(dfc_mse)
 
 #look at coefs
-fit_l<-glmnet(as.matrix(dfc_tune[2:length(dfc_eval)]), as.matrix(dfc_eval[[1]]), alpha=1)
+fit_l<-glmnet(as.matrix(dfc_eval[2:length(dfc_eval)]), as.matrix(dfc_eval[[1]]), alpha=1)
 # Mean Squared Error
 pred_l = predict(fit_l, as.matrix(dfc_eval[2:length(dfc_eval)]), type="response", s=lassoLambda)
-sum = predict(fit_r, as.matrix(dfc_eval[2:length(dfc_eval)]), type="coefficients", s=lassoLambda)
+sum = predict(fit_l, as.matrix(dfc_eval[2:length(dfc_eval)]), type="coefficients", s=lassoLambda)
 summary(sum)
 
 jpeg(paste('figures/lasso_paths',target,outcome,".jpg", sep="_" ))
@@ -332,12 +332,12 @@ par(mfrow=c(1,1))
 pred = pred = predict(fit_pcr, ncomp = bestNcomp, newdata=dfc)
 #need to plot by hand
 jpeg(paste('figures/pcr_pred',target,outcome,".jpg", sep="_" ))
-plot_res(dfc$combined_mort_y, as.matrix(pred))
+plot_res(dfc[,1], as.matrix(pred))
 dev.off()
 
 #pred = pred = predict(fit_pcr, ncomp = 15, newdata=dfc)
 #jpeg(paste('figures/pcr_15',target,outcome,".jpg", sep="_" ))
-#plot_res(dfc$combined_mort_y, as.matrix(pred))
+#plot_res(dfc[,1], as.matrix(pred))
 #dev.off()
 ########################################## TREE #########################################
 #Nothing to tune -- trees use few features, so no need to prune
@@ -357,8 +357,29 @@ text(tr, pretty=0)
 dev.off()
 pred = predict(tr, dfc)
 jpeg(paste('figures/tree_pred',target,outcome,".jpg", sep="_" ))
-plot_res(dfc$combined_mort_y, pred)
+plot_res(dfc[,1], pred)
 dev.off()
 
 
+########################################## RF #########################################
+library(randomForest)
+install.packages("randomForest")
+#(e) Use random forests to analyze this data.
+print("random forest dfc mse")
+dfc_mse = cv_rf(dfc, 10)
+print(dfc_mse)
+rf = randomForest(as.formula(paste(colnames(dfc)[1], "~", 
+                                   paste(colnames(dfc)[2:length(dfc)], 
+                                         collapse =  "+"), sep="")), data=dfc)
+importance(rf)
+summary(rf)
 
+jpeg(paste('figures/rf_tree',target,outcome,".jpg", sep="_" ))
+par(mfrow=c(1,1))
+plot(rf)
+text(rf, pretty=0)
+dev.off()
+pred = predict(rf, dfc)
+jpeg(paste('rf_figures/tree_pred',target,outcome,".jpg", sep="_" ))
+plot_res(dfc[,1], pred)
+dev.off()
