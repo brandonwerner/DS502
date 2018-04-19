@@ -209,7 +209,7 @@ cv_tree<-function(df, num_folds){
 
 
 ##Cross fold validation for random forest
-cv_rf<-function(df, deg, num_folds){
+cv_rf<-function(df, num_folds){
   #init error vector
   errors = rep(0,num_folds)
   df["idx"]=get_folds(df,num_folds)
@@ -217,18 +217,15 @@ cv_rf<-function(df, deg, num_folds){
     #get training and testing for this fold
     train <- df[df$idx!=fold,]
     test <- df[df$idx==fold,]
-    #for methods that need a matrix not dataframe, convert
-    trainf = train[,3:ncol(train)-1]
-    testf = test[,3:ncol(train)-1]
     train_y = train[,1]
     test_y = test[,1]
     #fit model on training
     #use to predict testing
-    fit_lm = glm(as.formula(paste(colnames(dfc)[1], "~", 
-                                  paste(colnames(dfc)[3:length(dfc)-1], 
-                                        collapse =  "+"), sep="")), data=df)
+    tr = randomForest(as.formula(paste(colnames(train)[1], "~", 
+                               paste(colnames(train)[2:length(train)], 
+                                     collapse =  "+"), sep="")), data=train)
     # Mean Squared Error
-    err = mean((predict(fit_lm, testf) - test_y)^2)  
+    err = mean((predict(tr, test) - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
     
