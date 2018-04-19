@@ -24,16 +24,3 @@
 [1] 3126.095
 [1] 1942.287
 [1] 5852.966
-null device 
-          1 
-[1] "Best K"
-[1] 10
-[1] "KNN CROSS VAL MSE"
-[1] 117.499
-null device 
-          1 
-null device 
-          1 
-[1] "Best Degree"
-[1] 5
-[1] " gam dfc mse"

@@ -1,0 +1,141 @@
+ [1] "FIPS"                     "combined_mort_y"         
+ [3] "female_mort_y"            "male_mort_y"             
+ [5] "Year"                     "Days.with.AQI"           
+ [7] "Good.Days"                "Moderate.Days"           
+ [9] "Unhealthy.Sensitive.Days" "Unhealthy.Days"          
+[11] "Very.Unhealthy.Days"      "Hazardous.Days"          
+[13] "Max.AQI"                  "Ninetieth.Percentile.AQI"
+[15] "Median.AQI"               "Days.CO"                 
+[17] "Days.NO2"                 "Days.Ozone"              
+[19] "Days.SO2"                 "Days.PM2.5"              
+[21] "Days.PM10"                "Latitude"                
+[23] "Longitude"                "mean_mort_c"             
+[25] "mean_mort_f"              "mean_mort_m"             
+ [1] "female_mort_y"            "Year"                    
+ [3] "Days.with.AQI"            "Good.Days"               
+ [5] "Moderate.Days"            "Unhealthy.Sensitive.Days"
+ [7] "Unhealthy.Days"           "Very.Unhealthy.Days"     
+ [9] "Hazardous.Days"           "Max.AQI"                 
+[11] "Ninetieth.Percentile.AQI" "Median.AQI"              
+[13] "Days.CO"                  "Days.NO2"                
+[15] "Days.Ozone"               "Days.SO2"                
+[17] "Days.PM2.5"               "Days.PM10"               
+[1] 0.0442512
+[1] 0.04975451
+[1] 0.05306005
+null device 
+          1 
+[1] "Best K"
+[1] 50
+[1] "KNN CROSS VAL MSE"
+[1] 0.04770546
+null device 
+          1 
+null device 
+          1 
+[1] "Best Degree"
+[1] 5
+[1] " gam dfc mse"
+[1] 0.04635861
+
+Call: gam(formula = as.formula(paste(paste(colnames(dfc)[1], "~ s(", 
+    paste(colnames(dfc)[3:length(dfc) - 1], collapse = paste(",", 
+        toString(best_deg), ") + s(", sep = ""), sep = "")), 
+    paste(",", toString(best_deg), ")", sep = ""))), data = dfc)
+Deviance Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.83781 -0.13929 -0.01015  0.13217  1.23989 
+
+(Dispersion Parameter for gaussian family taken to be 0.047)
+
+    Null Deviance: 1157.489 on 23263 degrees of freedom
+Residual Deviance: 1088.462 on 23183 degrees of freedom
+AIC: -5053.279 
+
+Number of Local Scoring Iterations: 4 
+
+Anova for Parametric Effects
+                                  Df  Sum Sq Mean Sq  F value    Pr(>F)    
+s(Year, 5)                         1    1.87  1.8673  39.7703 2.908e-10 ***
+s(Days.with.AQI, 5)                1    2.83  2.8271  60.2133 8.862e-15 ***
+s(Good.Days, 5)                    1   10.38 10.3822 221.1284 < 2.2e-16 ***
+s(Moderate.Days, 5)                1    4.83  4.8258 102.7837 < 2.2e-16 ***
+s(Unhealthy.Sensitive.Days, 5)     1    0.13  0.1310   2.7893   0.09491 .  
+s(Unhealthy.Days, 5)               1    1.62  1.6235  34.5784 4.150e-09 ***
+s(Very.Unhealthy.Days, 5)          1    0.00  0.0030   0.0637   0.80071    
+s(Hazardous.Days, 5)               1    0.09  0.0886   1.8879   0.16945    
+s(Max.AQI, 5)                      1    0.77  0.7661  16.3171 5.375e-05 ***
+s(Ninetieth.Percentile.AQI, 5)     1    0.28  0.2805   5.9741   0.01453 *  
+s(Median.AQI, 5)                   1    0.81  0.8115  17.2831 3.232e-05 ***
+s(Days.CO, 5)                      1    1.46  1.4592  31.0799 2.504e-08 ***
+s(Days.NO2, 5)                     1    2.69  2.6886  57.2651 3.950e-14 ***
+s(Days.Ozone, 5)                   1    0.81  0.8149  17.3561 3.110e-05 ***
+s(Days.SO2, 5)                     1    1.58  1.5788  33.6272 6.762e-09 ***
+s(Days.PM2.5, 5)                   1   10.26 10.2608 218.5430 < 2.2e-16 ***
+Residuals                      23183 1088.46  0.0470                       
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Anova for Nonparametric Effects
+                               Npar Df Npar F     Pr(F)    
+(Intercept)                                                
+s(Year, 5)                           4  4.693 0.0008738 ***
+s(Days.with.AQI, 5)                  4 20.960 < 2.2e-16 ***
+s(Good.Days, 5)                      4  8.284 1.132e-06 ***
+s(Moderate.Days, 5)                  4 30.588 < 2.2e-16 ***
+s(Unhealthy.Sensitive.Days, 5)       4  8.966 3.122e-07 ***
+s(Unhealthy.Days, 5)                 4  3.549 0.0067035 ** 
+s(Very.Unhealthy.Days, 5)            4  2.937 0.0193438 *  
+s(Hazardous.Days, 5)                 4  1.097 0.3561668    
+s(Max.AQI, 5)                        4  2.672 0.0303054 *  
+s(Ninetieth.Percentile.AQI, 5)       4  7.778 2.928e-06 ***
+s(Median.AQI, 5)                     4  5.479 0.0002091 ***
+s(Days.CO, 5)                        4 17.405 2.864e-14 ***
+s(Days.NO2, 5)                       4 20.807 < 2.2e-16 ***
+s(Days.Ozone, 5)                     4 66.650 < 2.2e-16 ***
+s(Days.SO2, 5)                       4 10.069 3.850e-08 ***
+s(Days.PM2.5, 5)                     4 51.608 < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+null device 
+          1 
+null device 
+          1 
+[1] "least squares alldfc mse"
+[1] 0.04889377
+
+Call:
+lm(formula = as.formula(paste(colnames(dfc)[1], "~", paste(colnames(dfc)[2:length(dfc)], 
+    collapse = "+"), sep = "")), data = dfc)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.79076 -0.14355 -0.00862  0.13451  1.21392 
+
+Coefficients: (1 not defined because of singularities)
+                           Estimate Std. Error t value Pr(>|t|)    
+(Intercept)               3.095e+00  2.496e+00   1.240   0.2150    
+Year                      1.675e-04  2.098e-04   0.798   0.4246    
+Days.with.AQI             1.349e-05  1.785e-05   0.756   0.4497    
+Good.Days                -2.450e+00  2.449e+00  -1.001   0.3170    
+Moderate.Days            -2.527e+00  2.448e+00  -1.032   0.3020    
+Unhealthy.Sensitive.Days -2.686e+00  2.448e+00  -1.097   0.2726    
+Unhealthy.Days           -3.082e+00  2.448e+00  -1.259   0.2081    
+Very.Unhealthy.Days      -1.995e+00  2.449e+00  -0.815   0.4153    
+Hazardous.Days           -5.846e+00  3.828e+00  -1.527   0.1267    
+Max.AQI                  -1.551e-05  8.605e-06  -1.803   0.0714 .  
+Ninetieth.Percentile.AQI  6.374e-04  1.427e-04   4.467 7.98e-06 ***
+Median.AQI                2.041e-03  2.689e-04   7.591 3.30e-14 ***
+Days.CO                  -1.039e-02  1.362e-02  -0.762   0.4458    
+Days.NO2                 -1.910e-01  1.504e-02 -12.700  < 2e-16 ***
+Days.Ozone               -9.649e-02  7.076e-03 -13.636  < 2e-16 ***
+Days.SO2                 -6.492e-02  8.432e-03  -7.700 1.42e-14 ***
+Days.PM2.5               -6.357e-02  7.130e-03  -8.916  < 2e-16 ***
+Days.PM10                        NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.221 on 23247 degrees of freedom
+Multiple R-squared:  0.01888,	Adjusted R-squared:  0.0182 
+F-statistic: 27.95 on 16 and 23247 DF,  p-value: < 2.2e-16
+
