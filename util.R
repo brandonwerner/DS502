@@ -43,7 +43,7 @@ cv_knn<-function(df, num_k, num_folds){
     err <- mean((test_y - fit$pred)^2)
     #put errors in a vector
     errors[fold]<-err
-    #print(fold)
+    #
   }
   return(mean(errors))
 }
@@ -70,7 +70,7 @@ cv_gam<-function(df, deg, num_folds){
     err = mean((predict(fit_gam, test) - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
-    print(fold)
+    
   }
   return(mean(errors))
 }
@@ -96,7 +96,7 @@ cv_lm<-function(df, num_folds){
     err = mean((predict(fit_lm, test) - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
-    print(fold)
+    
   }
   return(mean(errors))
 }
@@ -124,7 +124,7 @@ cv_ridge<-function(df, l, num_folds){
     err = mean((pred - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
-    print(fold)
+    
   }
   return(mean(errors))
 }
@@ -152,7 +152,7 @@ cv_lasso<-function(df, l, num_folds){
       err = mean((pred - test_y)^2)  
       #put errors in a vector
       errors[fold]=err
-      print(fold)
+      
     }
     return(mean(errors))
   }
@@ -177,7 +177,7 @@ cv_pcr<-function(df, num_comps, num_folds){
     err = mean((pred - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
-    print(fold)
+    
   }
   return(mean(errors))
 }
@@ -202,7 +202,7 @@ cv_tree<-function(df, num_folds){
     err = mean((predict(tr, test) - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
-    print(fold)
+    
   }
   return(mean(errors))
 }
@@ -231,7 +231,7 @@ cv_rf<-function(df, deg, num_folds){
     err = mean((predict(fit_lm, testf) - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
-    print(fold)
+    
   }
   return(mean(errors))
 }

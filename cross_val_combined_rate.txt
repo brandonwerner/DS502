@@ -1,0 +1,39 @@
+ [1] "FIPS"                     "combined_mort_y"         
+ [3] "female_mort_y"            "male_mort_y"             
+ [5] "Year"                     "Days.with.AQI"           
+ [7] "Good.Days"                "Moderate.Days"           
+ [9] "Unhealthy.Sensitive.Days" "Unhealthy.Days"          
+[11] "Very.Unhealthy.Days"      "Hazardous.Days"          
+[13] "Max.AQI"                  "Ninetieth.Percentile.AQI"
+[15] "Median.AQI"               "Days.CO"                 
+[17] "Days.NO2"                 "Days.Ozone"              
+[19] "Days.SO2"                 "Days.PM2.5"              
+[21] "Days.PM10"                "Latitude"                
+[23] "Longitude"                "mean_mort_c"             
+[25] "mean_mort_f"              "mean_mort_m"             
+ [1] "combined_mort_y"          "Year"                    
+ [3] "Days.with.AQI"            "Good.Days"               
+ [5] "Moderate.Days"            "Unhealthy.Sensitive.Days"
+ [7] "Unhealthy.Days"           "Very.Unhealthy.Days"     
+ [9] "Hazardous.Days"           "Max.AQI"                 
+[11] "Ninetieth.Percentile.AQI" "Median.AQI"              
+[13] "Days.CO"                  "Days.NO2"                
+[15] "Days.Ozone"               "Days.SO2"                
+[17] "Days.PM2.5"               "Days.PM10"               
+[19] "Latitude"                 "Longitude"               
+[1] 3126.095
+[1] 1942.287
+[1] 5852.966
+null device 
+          1 
+[1] "Best K"
+[1] 10
+[1] "KNN CROSS VAL MSE"
+[1] 117.499
+null device 
+          1 
+null device 
+          1 
+[1] "Best Degree"
+[1] 5
+[1] " gam dfc mse"

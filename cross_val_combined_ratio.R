@@ -9,9 +9,7 @@ source("util.R")
 ################## RATIOS #########################
 df=read.csv("data_cleaned/training_mortality_ratios.csv", header = TRUE)
 outcome="ratio"
-################## RATES  #########################
-#df<-read.csv("data_cleaned/training_mortality_rates.csv", header = TRUE)
-#outcome="rate"
+
 #data
 #dim(df)
 names(df)
@@ -23,22 +21,13 @@ names(df)
 #first col is response
 #include all predictors
 dfc <- df[c(2,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)]
-dff <- df[c(3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)]
-dfm <- df[c(4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)]
 
 #####################################
 ### SET THE PREDICTOR YOU WANT #####
 #####################################
 
-#combined
-#dfc<-dfc
-#target="combined"
-#female
-dfc<-dff
-target="female"
-#male
-#dfc<-dfm
-#target="male"
+target="combined"
+
 
 names(dfc)
 #can choose different sets of features
@@ -310,10 +299,9 @@ r2 = R2(tune_pcr)
 print(r2)
 
 m = msep$val[1,1, ]
-bestNcomp = m[which(min(m) == m)[[1]]]
+bestNcomp = which(min(m) == m)[[1]]-1
 print("Best num comps")
 print(bestNcomp)
-
 #print("pcr 5 comps dfc mse")
 #dfc_mse = cv_pcr(dfc_eval, 5, 10)
 #print(dfc_mse)
