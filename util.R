@@ -52,19 +52,16 @@ cv_gam<-function(df, deg, num_folds){
     #get training and testing for this fold
     train <- df[df$idx!=fold,]
     test <- df[df$idx==fold,]
-    #for methods that need a matrix not dataframe, convert
-    trainf = train[,3:ncol(train)-1]
-    testf = test[,3:ncol(train)-1]
     train_y = train[,1]
     test_y = test[,1]
     #fit model on training
     #use to predict testing
-    fit_gam = gam(as.formula(paste(paste(colnames(df)[1], "~ s(", 
-                                         paste(colnames(df)[3:length(df)-1], collapse = 
+    fit_gam <-gam(as.formula(paste(paste(colnames(train)[1], "~ s(", 
+                                         paste(colnames(train)[3:length(train)-1], collapse = 
                                                  paste(",",toString(deg), ") + s(", sep=""),sep = "")),
-                                   paste(",",toString(deg), ")", sep=""))), data=df)
+                                   paste(",",toString(deg), ")", sep=""))), data=train)
     # Mean Squared Error
-    err = mean((predict(fit_gam, testf) - test_y)^2)  
+    err = mean((predict(fit_gam, test) - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
     print(fold)
@@ -82,18 +79,15 @@ cv_lm<-function(df, num_folds){
     #get training and testing for this fold
     train <- df[df$idx!=fold,]
     test <- df[df$idx==fold,]
-    #for methods that need a matrix not dataframe, convert
-    trainf = train[,3:ncol(train)-1]
-    testf = test[,3:ncol(train)-1]
     train_y = train[,1]
     test_y = test[,1]
     #fit model on training
     #use to predict testing
-    fit_lm = glm(as.formula(paste(colnames(dfc)[1], "~", 
-                            paste(colnames(dfc)[3:length(dfc)-1], 
-                            collapse =  "+"), sep="")), data=df)
+    fit_lm <-glm(as.formula(paste(colnames(train)[1], "~", 
+                            paste(colnames(train)[2:length(train)], 
+                            collapse =  "+"), sep="")), data=train)
     # Mean Squared Error
-    err = mean((predict(fit_lm, testf) - test_y)^2)  
+    err = mean((predict(fit_lm, test) - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
     print(fold)
@@ -112,18 +106,16 @@ cv_ridge<-function(df, l, num_folds){
     #get training and testing for this fold
     train <- df[df$idx!=fold,]
     test <- df[df$idx==fold,]
-    #for methods that need a matrix not dataframe, convert
-    trainf = train[,3:ncol(train)-1]
-    testf = test[,3:ncol(train)-1]
+    trainf <- train[,3:ncol(train)-1]
+    testf <- test[,3:ncol(train)-1]
     train_y = train[,1]
     test_y = test[,1]
     #fit model on training
     #use to predict testing
-    fit_lm = glm(as.formula(paste(colnames(dfc)[1], "~", 
-                                  paste(colnames(dfc)[3:length(dfc)-1], 
-                                        collapse =  "+"), sep="")), data=df)
+    fit_r<-glmnet(as.matrix(trainf), as.matrix(train_y), alpha=0)
     # Mean Squared Error
-    err = mean((predict(fit_lm, testf) - test_y)^2)  
+    pred = predict(fit_r, newx=as.matrix(testf), type="response", s=l)
+    err = mean((pred - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
     print(fold)
@@ -135,59 +127,54 @@ cv_ridge<-function(df, l, num_folds){
 ##Cross fold validation for lasso
 #l is the lambda parameter
 cv_lasso<-function(df, l, num_folds){
+    #init error vector
+    errors = rep(0, num_folds)
+    df["idx"]=get_folds(df,num_folds)
+    for (fold in 1:num_folds){
+      #get training and testing for this fold
+      train <- df[df$idx!=fold,]
+      test <- df[df$idx==fold,]
+      trainf <- train[,3:ncol(train)-1]
+      testf <- test[,3:ncol(train)-1]
+      train_y = train[,1]
+      test_y = test[,1]
+      #fit model on training
+      #use to predict testing
+      fit_r<-glmnet(as.matrix(trainf), as.matrix(train_y), alpha=1)
+      # Mean Squared Error
+      pred = predict(fit_r, newx=as.matrix(testf), type="response", s=l)
+      err = mean((pred - test_y)^2)  
+      #put errors in a vector
+      errors[fold]=err
+      print(fold)
+    }
+    return(mean(errors))
+  }
+
+cv_pcr<-function(df, l, num_folds){
   #init error vector
-  errors = rep(0,num_folds)
+  errors = rep(0, num_folds)
   df["idx"]=get_folds(df,num_folds)
   for (fold in 1:num_folds){
     #get training and testing for this fold
     train <- df[df$idx!=fold,]
     test <- df[df$idx==fold,]
-    #for methods that need a matrix not dataframe, convert
-    trainf = train[,3:ncol(train)-1]
-    testf = test[,3:ncol(train)-1]
+    trainf <- train[,3:ncol(train)-1]
+    testf <- test[,3:ncol(train)-1]
     train_y = train[,1]
     test_y = test[,1]
     #fit model on training
     #use to predict testing
-    fit_lm = glm(as.formula(paste(colnames(dfc)[1], "~", 
-                                  paste(colnames(dfc)[3:length(dfc)-1], 
-                                        collapse =  "+"), sep="")), data=df)
+    fit_r<-glmnet(as.matrix(trainf), as.matrix(train_y), alpha=1)
     # Mean Squared Error
-    err = mean((predict(fit_lm, testf) - test_y)^2)  
+    pred = predict(fit_r, newx=as.matrix(testf), type="response", s=l)
+    err = mean((pred - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
     print(fold)
   }
   return(mean(errors))
 }
-
-library(glmnet)
-grid = 10^seq(10, -2, length=100)
-
-#combined mortality
-x = model.matrix(combined_mort_y~.,dataf_c)
-y =dataf$combined_mort_y
-
-ridge.mod = glmnet(x,y,alpha=0, lambda = grid) 
-set.seed(1)
-train = sample(1:nrow(x), nrow(x)/2)
-test  = (-train)
-y.test = y[test]
-ridge.mod = glmnet(x[train,], y[train], alpha=0, lambda=grid, thresh=1e-12)
-ridge.pred=predict(ridge.mod, s=4, newx=x[test,])
-mean((ridge.pred-y.test)^2)
-ridge.pred=predict(ridge.mod, s=1000000, newx=x[test,])
-mean((ridge.pred-y.test)^2)
-
-# use cross-validation to choose lambda
-cv.out = cv.glmnet(x[train,], y[train], alpha=0)
-plot(cv.out)
-bestlam=cv.out$lambda.min
-bestlam
-ridge.pred=predict(ridge.mod, s=bestlam, newx=x[test,])
-mean((ridge.pred-y.test)^2)       
-            
-            
 
 ##Cross fold validation for trees
 cv_tree<-function(df, deg, num_folds){
@@ -205,8 +192,8 @@ cv_tree<-function(df, deg, num_folds){
     test_y = test[,1]
     #fit model on training
     #use to predict testing
-    fit_lm = glm(as.formula(paste(colnames(dfc)[1], "~", 
-                                  paste(colnames(dfc)[3:length(dfc)-1], 
+    fit_lm = glm(as.formula(paste(colnames(df)[1], "~", 
+                                  paste(colnames(df)[2:length(df)], 
                                         collapse =  "+"), sep="")), data=df)
     # Mean Squared Error
     err = mean((predict(fit_lm, testf) - test_y)^2)  

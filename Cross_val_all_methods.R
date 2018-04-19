@@ -138,18 +138,9 @@ print(dfc_mse)
 
 
 #plot training error
-fit_lm = glm(as.formula(paste(colnames(dfc)[1], "~", 
+fit_lm = lm(as.formula(paste(colnames(dfc)[1], "~", 
                               paste(colnames(dfc)[3:length(dfc)-1], 
                                     collapse =  "+"), sep="")), data=dfc)
-summary(fit_lm)
-
-#Should drop Days.PM10 ? lm shows it is linear combo of other predictor 
-names(dfc)
-dfc_try = dfc[c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,10)]
-names(dfc_try)
-fit_lm = glm(as.formula(paste(colnames(dfc_try)[1], "~", 
-                              paste(colnames(dfc_try)[3:length(dfc_try)-1], 
-                                    collapse =  "+"), sep="")), data=dfc_try)
 summary(fit_lm)
 par(mfrow=c(2,2))
 plot(fit_lm)
@@ -157,11 +148,103 @@ plot(fit_lm)
 par(mfrow=c(1,1))
 plot_res(dfc[,1], predict(fit_lm, dfc))
 
+#Should drop Days.PM10 ? lm shows it is linear combo of other predictor 
+names(dfc)
+dfc_try = dfc[c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20)]
+names(dfc_try)
+fit_lm = lm(as.formula(paste(colnames(dfc_try)[1], "~", 
+                              paste(colnames(dfc_try)[3:length(dfc_try)-1], 
+                                    collapse =  "+"), sep="")), data=dfc_try)
+summary(fit_lm)
+par(mfrow=c(2,2))
+plot(fit_lm)
+
+par(mfrow=c(1,1))
+plot_res(dfc[,1], predict(fit_lm, dfc_try))
+mean((predict(fit_lm, dfc_try) - dfc_try$combined_mort_y)^2)
 
 
+dfc_try = dfc[c(1,3,11,12,13,14,15,17,19,20)]
+names(dfc_try)
+fit_lm = lm(as.formula(paste(colnames(dfc_try)[1], "~", 
+                             paste(colnames(dfc_try)[3:length(dfc_try)-1], 
+                                   collapse =  "+"), sep="")), data=dfc_try)
+summary(fit_lm)
+par(mfrow=c(2,2))
+plot(fit_lm)
+
+par(mfrow=c(1,1))
+plot_res(dfc[,1], predict(fit_lm, dfc_try))
+mean((predict(fit_lm, dfc_try) - dfc_try$combined_mort_y)^2)
 
 
+################################################ Ridge ##############################################
+
+library(glmnet)
+
+# use cross-validation to choose lambda
+ridge = cv.glmnet(as.matrix(dfc_tune[2:length(dfc_tune)]), as.matrix(dfc_tune[[1]]), alpha=0)
+ridgeLambda = ridge$lambda.min
+print("lambda")
+print(ridgeLambda)
+
+#Evaluate 
+print("dfc mse")
+dfc_mse = cv_ridge(dfc_eval, ridgeLambda, 10)
+print(dfc_mse)
+#print("dff mse")
+#print(cv_knn(dff_eval, 7, 10))
+#print("dfm mse")
+#print(cv_knn(dfm_eval, 9, 10))
+
+#plot training error
+fit_r<-glmnet(as.matrix(dfc_tune[2:length(dfc_eval)]), as.matrix(dfc_eval[[1]]), alpha=0)
+# Mean Squared Error
+pred = predict(fit_r, as.matrix(dfc_eval[2:length(dfc_eval)]), type="response", s=ridgeLambda)
+summary(fit_r)
+par(mfrow=c(2,2))
+plot(fit_r)
+
+par(mfrow=c(1,1))
+plot_res(dfc_eval[,1], pred)
 
 
+################################################ Lasso ##############################################
 
 
+# lasso regression
+# use cross-validation to choose lambda
+lasso = cv.glmnet(as.matrix(dfc_tune[2:length(dfc_tune)]), as.matrix(dfc_tune[[1]]), alpha=1)
+lassoLambda = lasso$lambda.min
+print("lambda")
+print(lassoLambda)
+
+#Evaluate 
+print("dfc mse")
+dfc_mse = cv_lasso(dfc_eval, lassoLambda, 10)
+print(dfc_mse)
+#print("dff mse")
+#print(cv_knn(dff_eval, 7, 10))
+#print("dfm mse")
+#print(cv_knn(dfm_eval, 9, 10))
+
+#plot training error
+fit_l<-glmnet(as.matrix(dfc_tune[2:length(dfc_eval)]), as.matrix(dfc_eval[[1]]), alpha=1)
+# Mean Squared Error
+pred_l = predict(fit_l, as.matrix(dfc_eval[2:length(dfc_eval)]), type="response", s=lassoLambda)
+summary(fit_l)
+par(mfrow=c(2,2))
+plot(fit_l)
+
+par(mfrow=c(1,1))
+plot_res(dfc_eval[,1], pred_l)
+
+
+################################################ PCR ##############################################
+
+?pcr
+myFit <- pcr(crim~zn+indus+chas+nox+rm+age+dis+rad+tax+ptratio+black+lstat+medv,data=train,validation = "CV", segments=5)
+summary(myFit)
+par(mfrow=c(1,1))
+plot(myFit)
+validationplot(myFit, val.type="MSE")
