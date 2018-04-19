@@ -1,0 +1,355 @@
+ [1] "FIPS"                     "combined_mort_y"         
+ [3] "female_mort_y"            "male_mort_y"             
+ [5] "Year"                     "Days.with.AQI"           
+ [7] "Good.Days"                "Moderate.Days"           
+ [9] "Unhealthy.Sensitive.Days" "Unhealthy.Days"          
+[11] "Very.Unhealthy.Days"      "Hazardous.Days"          
+[13] "Max.AQI"                  "Ninetieth.Percentile.AQI"
+[15] "Median.AQI"               "Days.CO"                 
+[17] "Days.NO2"                 "Days.Ozone"              
+[19] "Days.SO2"                 "Days.PM2.5"              
+[21] "Days.PM10"                "Latitude"                
+[23] "Longitude"                "mean_mort_c"             
+[25] "mean_mort_f"              "mean_mort_m"             
+ [1] "male_mort_y"              "Year"                    
+ [3] "Days.with.AQI"            "Good.Days"               
+ [5] "Moderate.Days"            "Unhealthy.Sensitive.Days"
+ [7] "Unhealthy.Days"           "Very.Unhealthy.Days"     
+ [9] "Hazardous.Days"           "Max.AQI"                 
+[11] "Ninetieth.Percentile.AQI" "Median.AQI"              
+[13] "Days.CO"                  "Days.NO2"                
+[15] "Days.Ozone"               "Days.SO2"                
+[17] "Days.PM2.5"               "Days.PM10"               
+[19] "Latitude"                 "Longitude"               
+[1] 3126.095
+[1] 1942.287
+[1] 5852.966
+null device 
+          1 
+[1] "Best K"
+[1] 10
+[1] "KNN CROSS VAL MSE"
+[1] 237.1208
+null device 
+          1 
+null device 
+          1 
+[1] "Best Degree"
+[1] 5
+[1] " gam dfc mse"
+[1] 233.2158
+
+Call: gam(formula = as.formula(paste(paste(colnames(dfc)[1], "~ s(", 
+    paste(colnames(dfc)[3:length(dfc)], collapse = paste(",", 
+        toString(best_deg), ") + s(", sep = ""), sep = "")), 
+    paste(",", toString(best_deg), ")", sep = ""))), data = dfc)
+Deviance Residuals:
+     Min       1Q   Median       3Q      Max 
+-65.6968  -9.7728  -0.9742   8.4628 158.3579 
+
+(Dispersion Parameter for gaussian family taken to be 238.4431)
+
+    Null Deviance: 7160529 on 23263 degrees of freedom
+Residual Deviance: 5525441 on 23173 degrees of freedom
+AIC: 193463.4 
+
+Number of Local Scoring Iterations: 5 
+
+Anova for Parametric Effects
+                                  Df  Sum Sq Mean Sq  F value    Pr(>F)    
+s(Days.with.AQI, 5)                1   95410   95410 400.1361 < 2.2e-16 ***
+s(Good.Days, 5)                    1    5485    5485  23.0038 1.627e-06 ***
+s(Moderate.Days, 5)                1    3271    3271  13.7162 0.0002131 ***
+s(Unhealthy.Sensitive.Days, 5)     1    6513    6513  27.3152 1.743e-07 ***
+s(Unhealthy.Days, 5)               1    4269    4269  17.9039 2.332e-05 ***
+s(Very.Unhealthy.Days, 5)          1     391     391   1.6381 0.2006001    
+s(Hazardous.Days, 5)               1    3265    3265  13.6943 0.0002156 ***
+s(Max.AQI, 5)                      1    5574    5574  23.3770 1.340e-06 ***
+s(Ninetieth.Percentile.AQI, 5)     1       1       1   0.0048 0.9446080    
+s(Median.AQI, 5)                   1   19245   19245  80.7102 < 2.2e-16 ***
+s(Days.CO, 5)                      1    8658    8658  36.3090 1.709e-09 ***
+s(Days.NO2, 5)                     1   63632   63632 266.8636 < 2.2e-16 ***
+s(Days.Ozone, 5)                   1   84791   84791 355.6027 < 2.2e-16 ***
+s(Days.SO2, 5)                     1   12961   12961  54.3558 1.729e-13 ***
+s(Days.PM2.5, 5)                   1   40767   40767 170.9706 < 2.2e-16 ***
+s(Days.PM10, 5)                    1      15      15   0.0644 0.7997335    
+s(Latitude, 5)                     1   42516   42516 178.3077 < 2.2e-16 ***
+s(Longitude, 5)                    1    1257    1257   5.2736 0.0216600 *  
+Residuals                      23173 5525441     238                       
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Anova for Nonparametric Effects
+                               Npar Df Npar F     Pr(F)    
+(Intercept)                                                
+s(Days.with.AQI, 5)                  4  18.36 4.441e-15 ***
+s(Good.Days, 5)                      4   8.89 3.580e-07 ***
+s(Moderate.Days, 5)                  4   7.34 6.702e-06 ***
+s(Unhealthy.Sensitive.Days, 5)       4   1.33 0.2542209    
+s(Unhealthy.Days, 5)                 4   4.92 0.0005765 ***
+s(Very.Unhealthy.Days, 5)            4   7.28 7.407e-06 ***
+s(Hazardous.Days, 5)                 4   1.42 0.2228590    
+s(Max.AQI, 5)                        4   6.97 1.338e-05 ***
+s(Ninetieth.Percentile.AQI, 5)       4   8.82 4.130e-07 ***
+s(Median.AQI, 5)                     4   3.09 0.0148362 *  
+s(Days.CO, 5)                        4   4.37 0.0015625 ** 
+s(Days.NO2, 5)                       4  16.10 3.570e-13 ***
+s(Days.Ozone, 5)                     4  29.82 < 2.2e-16 ***
+s(Days.SO2, 5)                       4  19.29 6.661e-16 ***
+s(Days.PM2.5, 5)                     4  33.33 < 2.2e-16 ***
+s(Days.PM10, 5)                      4  32.86 < 2.2e-16 ***
+s(Latitude, 5)                       4 488.46 < 2.2e-16 ***
+s(Longitude, 5)                      4 164.20 < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+null device 
+          1 
+null device 
+          1 
+[1] "least squares alldfc mse"
+[1] 279.6221
+
+Call:
+lm(formula = as.formula(paste(colnames(dfc)[1], "~", paste(colnames(dfc)[2:length(dfc)], 
+    collapse = "+"), sep = "")), data = dfc)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-62.464 -10.625  -0.763   9.388 156.184 
+
+Coefficients: (1 not defined because of singularities)
+                           Estimate Std. Error t value Pr(>|t|)    
+(Intercept)              -6.865e+01  1.890e+02  -0.363   0.7164    
+Year                     -2.399e-02  1.587e-02  -1.511   0.1308    
+Days.with.AQI            -2.734e-02  1.372e-03 -19.935  < 2e-16 ***
+Good.Days                 2.072e+02  1.853e+02   1.118   0.2635    
+Moderate.Days             1.915e+02  1.853e+02   1.034   0.3013    
+Unhealthy.Sensitive.Days  1.597e+02  1.853e+02   0.862   0.3885    
+Unhealthy.Days            1.146e+02  1.852e+02   0.618   0.5363    
+Very.Unhealthy.Days       1.192e+02  1.853e+02   0.643   0.5203    
+Hazardous.Days           -1.150e+01  2.895e+02  -0.040   0.9683    
+Max.AQI                  -1.165e-03  6.507e-04  -1.791   0.0734 .  
+Ninetieth.Percentile.AQI  1.305e-01  1.086e-02  12.017  < 2e-16 ***
+Median.AQI                2.291e-01  2.044e-02  11.206  < 2e-16 ***
+Days.CO                  -9.740e+00  1.035e+00  -9.407  < 2e-16 ***
+Days.NO2                 -2.078e+01  1.139e+00 -18.238  < 2e-16 ***
+Days.Ozone               -9.878e+00  5.389e-01 -18.330  < 2e-16 ***
+Days.SO2                  4.024e+00  6.590e-01   6.106 1.04e-09 ***
+Days.PM2.5               -5.630e+00  5.396e-01 -10.433  < 2e-16 ***
+Days.PM10                        NA         NA      NA       NA    
+Latitude                 -3.731e-01  2.245e-02 -16.618  < 2e-16 ***
+Longitude                 1.635e-02  7.713e-03   2.120   0.0340 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 16.71 on 23245 degrees of freedom
+Multiple R-squared:  0.09335,	Adjusted R-squared:  0.09265 
+F-statistic:   133 on 18 and 23245 DF,  p-value: < 2.2e-16
+
+ [1] "male_mort_y"              "Year"                    
+ [3] "Days.with.AQI"            "Good.Days"               
+ [5] "Moderate.Days"            "Unhealthy.Sensitive.Days"
+ [7] "Unhealthy.Days"           "Very.Unhealthy.Days"     
+ [9] "Hazardous.Days"           "Max.AQI"                 
+[11] "Ninetieth.Percentile.AQI" "Median.AQI"              
+[13] "Days.CO"                  "Days.NO2"                
+[15] "Days.Ozone"               "Days.SO2"                
+[17] "Days.PM2.5"               "Latitude"                
+[19] "Longitude"               
+[1] "least squares no PM10 dfc mse"
+[1] 279.5731
+
+Call:
+lm(formula = as.formula(paste(colnames(dfc_try)[1], "~", paste(colnames(dfc_try)[2:length(dfc_try)], 
+    collapse = "+"), sep = "")), data = dfc_try)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-62.464 -10.625  -0.763   9.388 156.184 
+
+Coefficients:
+                           Estimate Std. Error t value Pr(>|t|)    
+(Intercept)              -6.865e+01  1.890e+02  -0.363   0.7164    
+Year                     -2.399e-02  1.587e-02  -1.511   0.1308    
+Days.with.AQI            -2.734e-02  1.372e-03 -19.935  < 2e-16 ***
+Good.Days                 2.072e+02  1.853e+02   1.118   0.2635    
+Moderate.Days             1.915e+02  1.853e+02   1.034   0.3013    
+Unhealthy.Sensitive.Days  1.597e+02  1.853e+02   0.862   0.3885    
+Unhealthy.Days            1.146e+02  1.852e+02   0.618   0.5363    
+Very.Unhealthy.Days       1.192e+02  1.853e+02   0.643   0.5203    
+Hazardous.Days           -1.150e+01  2.895e+02  -0.040   0.9683    
+Max.AQI                  -1.165e-03  6.507e-04  -1.791   0.0734 .  
+Ninetieth.Percentile.AQI  1.305e-01  1.086e-02  12.017  < 2e-16 ***
+Median.AQI                2.291e-01  2.044e-02  11.206  < 2e-16 ***
+Days.CO                  -9.740e+00  1.035e+00  -9.407  < 2e-16 ***
+Days.NO2                 -2.078e+01  1.139e+00 -18.238  < 2e-16 ***
+Days.Ozone               -9.878e+00  5.389e-01 -18.330  < 2e-16 ***
+Days.SO2                  4.024e+00  6.590e-01   6.106 1.04e-09 ***
+Days.PM2.5               -5.630e+00  5.396e-01 -10.433  < 2e-16 ***
+Latitude                 -3.731e-01  2.245e-02 -16.618  < 2e-16 ***
+Longitude                 1.635e-02  7.713e-03   2.120   0.0340 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 16.71 on 23245 degrees of freedom
+Multiple R-squared:  0.09335,	Adjusted R-squared:  0.09265 
+F-statistic:   133 on 18 and 23245 DF,  p-value: < 2.2e-16
+
+null device 
+          1 
+function (which = dev.cur()) 
+{
+    if (which == 1) 
+        stop("cannot shut down device 1 (the null device)")
+    .External(C_devoff, as.integer(which))
+    dev.cur()
+}
+<bytecode: 0x739edf8>
+<environment: namespace:grDevices>
+jpeg 
+   2 
+[1] "least squares year, pm25 mse"
+[1] 279.0611
+[1] "lambda"
+[1] 0.3584024
+[1] "ridge dfc mse"
+[1] 269.9466
+20 x 1 sparse Matrix of class "dgCMatrix", with 20 entries 
+    i j             x
+1   1 1  1.641252e+02
+2   2 1 -4.120552e-02
+3   3 1 -2.807766e-02
+4   4 1  7.247407e+00
+5   5 1 -1.865170e+00
+6   6 1 -2.848327e+01
+7   7 1 -5.873067e+01
+8   8 1 -5.091534e+01
+9   9 1 -2.493623e+02
+10 10 1 -1.550695e-03
+11 11 1  8.484340e-02
+12 12 1  1.775356e-01
+13 13 1 -6.234029e+00
+14 14 1 -1.570356e+01
+15 15 1 -4.552153e+00
+16 16 1  8.109891e+00
+17 17 1 -1.267531e+00
+18 18 1  4.039694e+00
+19 19 1 -3.810655e-01
+20 20 1  2.081384e-02
+          Length Class     Mode   
+a0         100   -none-    numeric
+beta      1900   dgCMatrix S4     
+df         100   -none-    numeric
+dim          2   -none-    numeric
+lambda     100   -none-    numeric
+dev.ratio  100   -none-    numeric
+nulldev      1   -none-    numeric
+npasses      1   -none-    numeric
+jerr         1   -none-    numeric
+offset       1   -none-    logical
+call         4   -none-    call   
+nobs         1   -none-    numeric
+jpeg 
+   2 
+jpeg 
+   2 
+[1] "lambda"
+[1] 0.003045536
+[1] "lasso dfc mse"
+[1] 269.537
+20 x 1 sparse Matrix of class "dgCMatrix", with 19 entries 
+    i j             x
+1   1 1  136.42258628
+2   2 1   -0.03438753
+3   3 1   -0.02986246
+4   4 1   16.88538779
+5   5 1   -0.01279909
+6   6 1  -35.33203497
+7   7 1  -76.18721757
+8   8 1  -68.20761467
+9   9 1 -339.44174703
+10 10 1   -0.00150218
+11 11 1    0.12875887
+12 12 1    0.26204133
+13 13 1   -4.78074044
+14 14 1  -14.63003089
+15 15 1   -4.32416719
+16 16 1   10.36661991
+17 18 1    5.44075317
+18 19 1   -0.39196257
+19 20 1    0.02811878
+jpeg 
+   2 
+jpeg 
+   2 
+Data: 	X dimension: 11632 19 
+	Y dimension: 11632 1
+Fit method: svdpc
+Number of components considered: 19
+TRAINING: % variance explained
+             1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+X             79.181   97.620   99.347   99.704   99.871   99.963   99.999
+male_mort_y    0.316    3.394    3.461    3.588    3.727    3.728    4.593
+             8 comps  9 comps  10 comps  11 comps  12 comps  13 comps  14 comps
+X            100.000  100.000   100.000   100.000   100.000   100.000   100.000
+male_mort_y    5.548    6.137     6.378     6.744     7.608     7.622     7.878
+             15 comps  16 comps  17 comps  18 comps  19 comps
+X             100.000   100.000   100.000   100.000    100.00
+male_mort_y     8.365     8.493     8.501     8.509      8.51
+jpeg 
+   2 
+jpeg 
+   2 
+(Intercept)      1 comps      2 comps      3 comps      4 comps      5 comps  
+      316.1        315.1        305.4        305.2        304.8        304.3  
+    6 comps      7 comps      8 comps      9 comps     10 comps     11 comps  
+      304.3        301.6        298.6        296.7        296.0        294.8  
+   12 comps     13 comps     14 comps     15 comps     16 comps     17 comps  
+      292.1        292.0        291.2        289.7        289.3        289.2  
+   18 comps     19 comps  
+      289.2        289.2  
+(Intercept)      1 comps      2 comps      3 comps      4 comps      5 comps  
+    0.00000      0.00316      0.03394      0.03461      0.03588      0.03727  
+    6 comps      7 comps      8 comps      9 comps     10 comps     11 comps  
+    0.03728      0.04593      0.05548      0.06137      0.06378      0.06744  
+   12 comps     13 comps     14 comps     15 comps     16 comps     17 comps  
+    0.07608      0.07622      0.07878      0.08365      0.08493      0.08501  
+   18 comps     19 comps  
+    0.08509      0.08510  
+[1] "Best num comps"
+[1] 19
+[1] "pcr dfc mse"
+[1] 269.5902
+Data: 	X dimension: 23264 19 
+	Y dimension: 23264 1
+Fit method: svdpc
+Number of components considered: 19
+TRAINING: % variance explained
+             1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+X            83.6909   98.151   99.494   99.769   99.899   99.971  100.000
+male_mort_y   0.2804    3.826    3.944    4.016    4.132    4.144    5.107
+             8 comps  9 comps  10 comps  11 comps  12 comps  13 comps  14 comps
+X            100.000  100.000   100.000   100.000   100.000   100.000   100.000
+male_mort_y    6.146    6.749     7.083     7.554     8.322     8.325     8.693
+             15 comps  16 comps  17 comps  18 comps  19 comps
+X             100.000   100.000   100.000   100.000   100.000
+male_mort_y     9.175     9.318     9.334     9.335     9.337
+jpeg 
+   2 
+[1] "tree dfc mse"
+[1] 216.0792
+
+Regression tree:
+tree(formula = as.formula(paste(colnames(dfc)[1], "~", paste(colnames(dfc)[2:length(dfc)], 
+    collapse = "+"), sep = "")), data = dfc)
+Variables actually used in tree construction:
+[1] "Longitude"  "Latitude"   "Days.Ozone"
+Number of terminal nodes:  11 
+Residual mean deviance:  214.2 = 4980000 / 23250 
+Distribution of residuals:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-53.6900  -9.0020  -0.8499   0.0000   8.0480 134.3000 
+jpeg 
+   2 
+jpeg 
+   2 
