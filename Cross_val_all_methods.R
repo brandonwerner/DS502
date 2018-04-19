@@ -4,6 +4,7 @@ library(FNN)
 library(gam)
 library(tree)
 library(glmnet)
+library(pls)
 source("util.R")
 
 # import csv file
@@ -242,23 +243,44 @@ plot_res(dfc_eval[,1], pred_l)
 
 ################################################ PCR ##############################################
 
-?pcr
-myFit <- pcr(crim~zn+indus+chas+nox+rm+age+dis+rad+tax+ptratio+black+lstat+medv,data=train,validation = "CV", segments=5)
-summary(myFit)
-par(mfrow=c(1,1))
-plot(myFit)
-validationplot(myFit, val.type="MSE")
+# Tune num comps
+tune_pcr = pcr(as.formula(paste(colnames(dfc_tune)[1], "~", 
+                               paste(colnames(dfc_tune)[2:length(dfc_tune)], 
+                                     collapse =  "+"), sep="")), data=dfc_tune)
+summary(tune_pcr)
+validationplot(tune_pcr, val.type="MSEP")
+validationplot(tune_pcr, val.type="R2")
+MSEP(fit)
+R2(fit)
+#try 7 or 15 comps
 
+print("dfc mse")
+dfc_mse = cv_pcr(dfc_eval, 7, 10)
+print(dfc_mse)
+dfc_mse = cv_pcr(dfc_eval, 15, 10)
+print(dfc_mse)
+
+fit_pcr = pcr(as.formula(paste(colnames(dfc)[1], "~", 
+                           paste(colnames(dfc)[2:length(dfc)], 
+                                 collapse =  "+"), sep="")), data=dfc)
+
+
+# Training error
+summary(fit_pcr)
+par(mfrow=c(1,1))
+pred = pred = predict(fit_pcr, ncomp = 7, newdata=dfc)
+plot_res(dfc$combined_mort_y, as.matrix(pred))
+pred = pred = predict(fit_pcr, ncomp = 15, newdata=dfc)
+plot_res(dfc$combined_mort_y, as.matrix(pred))
 
 
 ########################################## TREE #########################################
 #Nothing to tune -- trees use few features, so no need to prune
-library(tree)
 #Evaluate 
 print("dfc mse")
 dfc_mse = cv_tree(dfc, 10)
 print(dfc_mse)
-
+?tree
 tr = tree(as.formula(paste(colnames(dfc)[1], "~", 
                              paste(colnames(dfc)[2:length(dfc)], 
                                    collapse =  "+"), sep="")), data=dfc)
@@ -272,16 +294,5 @@ pred = predict(tr, dfc)
 mean((pred-dfc$combined_mort_y)^2)
 plot_res(dfc$combined_mort_y, pred)
 
-tr = tree(female_mort_y~year+ 
-            good_days_ratio+
-            maxAQI+
-            CO_ratio+
-            NO2_ratio+
-            ozone_ratio+
-            SO2_ratio+
-            PM2.5_ratio+
-            days_with_AQI, data = sdf)
-summary(tr)
-par(mfrow=c(1,1))
-plot(tr)
-text(tr, pretty=0)
+
+

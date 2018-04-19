@@ -158,7 +158,7 @@ cv_lasso<-function(df, l, num_folds){
     return(mean(errors))
   }
 
-cv_pcr<-function(df, l, num_folds){
+cv_pcr<-function(df, num_comps, num_folds){
   #init error vector
   errors = rep(0, num_folds)
   df["idx"]=get_folds(df,num_folds)
@@ -166,15 +166,15 @@ cv_pcr<-function(df, l, num_folds){
     #get training and testing for this fold
     train <- df[df$idx!=fold,]
     test <- df[df$idx==fold,]
-    trainf <- train[,3:ncol(train)-1]
-    testf <- test[,3:ncol(train)-1]
     train_y = train[,1]
     test_y = test[,1]
     #fit model on training
     #use to predict testing
-    fit_r<-glmnet(as.matrix(trainf), as.matrix(train_y), alpha=1)
+    fit_pcr = pcr(as.formula(paste(colnames(train)[1], "~", 
+                                   paste(colnames(train)[2:length(train)], 
+                                         collapse =  "+"), sep="")), data=train)
     # Mean Squared Error
-    pred = predict(fit_r, newx=as.matrix(testf), type="response", s=l)
+    pred = predict(fit_pcr, ncomp = num_comps, newdata=test)
     err = mean((pred - test_y)^2)  
     #put errors in a vector
     errors[fold]=err
