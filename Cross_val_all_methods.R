@@ -2,6 +2,8 @@ library(class)
 library(caret)
 library(FNN)
 library(gam)
+library(tree)
+library(glmnet)
 source("util.R")
 
 # import csv file
@@ -180,8 +182,6 @@ mean((predict(fit_lm, dfc_try) - dfc_try$combined_mort_y)^2)
 
 ################################################ Ridge ##############################################
 
-library(glmnet)
-
 # use cross-validation to choose lambda
 ridge = cv.glmnet(as.matrix(dfc_tune[2:length(dfc_tune)]), as.matrix(dfc_tune[[1]]), alpha=0)
 ridgeLambda = ridge$lambda.min
@@ -248,3 +248,40 @@ summary(myFit)
 par(mfrow=c(1,1))
 plot(myFit)
 validationplot(myFit, val.type="MSE")
+
+
+
+########################################## TREE #########################################
+#Nothing to tune -- trees use few features, so no need to prune
+library(tree)
+#Evaluate 
+print("dfc mse")
+dfc_mse = cv_tree(dfc, 10)
+print(dfc_mse)
+
+tr = tree(as.formula(paste(colnames(dfc)[1], "~", 
+                             paste(colnames(dfc)[2:length(dfc)], 
+                                   collapse =  "+"), sep="")), data=dfc)
+# Mean Squared Error
+err = mean((predict(tr, dfc) - dfc$combined_mort_y)^2)  
+summary(tr)
+par(mfrow=c(1,1))
+plot(tr)
+text(tr, pretty=0)
+pred = predict(tr, dfc)
+mean((pred-dfc$combined_mort_y)^2)
+plot_res(dfc$combined_mort_y, pred)
+
+tr = tree(female_mort_y~year+ 
+            good_days_ratio+
+            maxAQI+
+            CO_ratio+
+            NO2_ratio+
+            ozone_ratio+
+            SO2_ratio+
+            PM2.5_ratio+
+            days_with_AQI, data = sdf)
+summary(tr)
+par(mfrow=c(1,1))
+plot(tr)
+text(tr, pretty=0)
