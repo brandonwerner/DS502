@@ -1,5 +1,4 @@
-library(class)
-library(caret)
+
 library(FNN)
 library(gam)
 library(tree)

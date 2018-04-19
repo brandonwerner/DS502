@@ -5,6 +5,17 @@ mean_mort_c = aggregate(df$combined_mort_y , list(df$Year), mean)
 mean_mort_f = aggregate(df$female_mort_y , list(df$Year), mean)
 mean_mort_m = aggregate(df$male_mort_y , list(df$Year), mean)
 
+colnames(mean_mort_c)[1] <- "Year"
+colnames(mean_mort_c)[2] <- "mean_mort_c"
+colnames(mean_mort_f)[1] <- "Year"
+colnames(mean_mort_f)[2] <- "mean_mort_f"
+colnames(mean_mort_m)[1] <- "Year"
+colnames(mean_mort_m)[2] <- "mean_mort_m"
+
+mdf = merge(x = df, y = mean_mort_c)
+mdf = merge(x = mdf, y = mean_mort_f)
+mdf = merge(x = mdf, y = mean_mort_m)
+
 #Transform mortality rates to ratio
 mdf$combined_mort_y = mdf$combined_mort_y/mdf$mean_mort_c
 mdf$female_mort_y = mdf$female_mort_y/mdf$mean_mort_f
@@ -13,6 +24,87 @@ head(mdf)
 ?write.csv
 # Write to file
 write.csv(mdf, file = "data_cleaned/training_mortality_ratios.csv")
+
+
+df=read.csv("data_cleaned/validate_all_counties_all_years_ll.csv",header = TRUE)
+names(df)
+
+mean_mort_c = aggregate(df$combined_mort_y , list(df$Year), mean)
+mean_mort_f = aggregate(df$female_mort_y , list(df$Year), mean)
+mean_mort_m = aggregate(df$male_mort_y , list(df$Year), mean)
+
+colnames(mean_mort_c)[1] <- "Year"
+colnames(mean_mort_c)[2] <- "mean_mort_c"
+colnames(mean_mort_f)[1] <- "Year"
+colnames(mean_mort_f)[2] <- "mean_mort_f"
+colnames(mean_mort_m)[1] <- "Year"
+colnames(mean_mort_m)[2] <- "mean_mort_m"
+
+mdf = merge(x = df, y = mean_mort_c)
+mdf = merge(x = mdf, y = mean_mort_f)
+mdf = merge(x = mdf, y = mean_mort_m)
+
+#Transform mortality rates to ratio
+mdf$combined_mort_y = mdf$combined_mort_y/mdf$mean_mort_c
+mdf$female_mort_y = mdf$female_mort_y/mdf$mean_mort_f
+mdf$male_mort_y = mdf$male_mort_y/mdf$mean_mort_m
+head(mdf)
+?write.csv
+# Write to file
+write.csv(mdf, file = "data_cleaned/validate_mortality_ratios.csv")
+
+
+
+df=read.csv("data_cleaned/training_all_counties_all_years_ll.csv",header = TRUE)
+names(df)
+
+mean_mort_c = aggregate(df$combined_mort_y , list(df$Year), mean)
+mean_mort_f = aggregate(df$female_mort_y , list(df$Year), mean)
+mean_mort_m = aggregate(df$male_mort_y , list(df$Year), mean)
+
+colnames(mean_mort_c)[1] <- "Year"
+colnames(mean_mort_c)[2] <- "mean_mort_c"
+colnames(mean_mort_f)[1] <- "Year"
+colnames(mean_mort_f)[2] <- "mean_mort_f"
+colnames(mean_mort_m)[1] <- "Year"
+colnames(mean_mort_m)[2] <- "mean_mort_m"
+
+mdf = merge(x = df, y = mean_mort_c)
+mdf = merge(x = mdf, y = mean_mort_f)
+mdf = merge(x = mdf, y = mean_mort_m)
+
+# Write to file
+write.csv(mdf, file = "data_cleaned/training_mortality_rates.csv")
+
+
+df=read.csv("data_cleaned/validate_all_counties_all_years_ll.csv",header = TRUE)
+names(df)
+
+mean_mort_c = aggregate(df$combined_mort_y , list(df$Year), mean)
+mean_mort_f = aggregate(df$female_mort_y , list(df$Year), mean)
+mean_mort_m = aggregate(df$male_mort_y , list(df$Year), mean)
+
+colnames(mean_mort_c)[1] <- "Year"
+colnames(mean_mort_c)[2] <- "mean_mort_c"
+colnames(mean_mort_f)[1] <- "Year"
+colnames(mean_mort_f)[2] <- "mean_mort_f"
+colnames(mean_mort_m)[1] <- "Year"
+colnames(mean_mort_m)[2] <- "mean_mort_m"
+
+mdf = merge(x = df, y = mean_mort_c)
+mdf = merge(x = mdf, y = mean_mort_f)
+mdf = merge(x = mdf, y = mean_mort_m)
+
+# Write to file
+write.csv(mdf, file = "data_cleaned/validate_mortality_rates.csv")
+
+
+
+
+
+
+
+
 
 
 dfc = df[c("combined_mort_y",
